@@ -1,0 +1,90 @@
+<div class="container">
+
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="row">
+            <div class="col-xs-4">
+                <h3>Business Card</h3>
+            </div>
+            <div *ngIf="isComplete">
+                <button class="btn btn-default" (click)='isComplete = !isComplete'>Edit User Details</button>
+            </div>
+
+            <div *ngIf="!isComplete">
+                <button class="btn btn-default" (click)='onSubmit()'>View Business Card</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="!isComplete">
+
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">First Name</label>
+
+                <input type="text" id="firstName" class="form-control" formControlName="firstName" required>
+
+                <div class="alert" *ngIf="!userForm.controls['firstName'].valid && userForm.controls['firstName'].touched">
+                    <div *ngIf="userForm.controls['firstName'].errors.required">
+                        First name is required.
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+
+                <input type="text" id="lastName" class="form-control" formControlName="lastName" required>
+
+                <div class="alert" *ngIf="!userForm.controls['lastName'].valid && userForm.controls['lastName'].touched">
+                    <div *ngIf="userForm.controls['lastName'].errors.required">
+                       Last name is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="mail">Mail</label>
+                <input type="email" name="mail" class="form-control" formControlName="mail" required>
+                <div class="alert" *ngIf="!userForm.controls['mail'].valid && userForm.controls['mail'].touched">
+                    <div *ngIf="userForm.controls['mail'].errors.required">
+                        email address is required.
+                    </div>
+                    <div *ngIf="userForm.controls['mail'].errors.email">
+                        email address is invalid.
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+
+                <input type="text" id="phone" class="form-control" formControlName="phone" required>
+
+                <div class="alert" *ngIf="!userForm.controls['phone'].valid && userForm.controls['phone'].touched">
+                    <div *ngIf="userForm.controls['phone'].errors.required">
+                        mobile Number is required.
+                    </div>
+                    <div *ngIf="userForm.controls['phone'].hasError('maxlength') || userForm.controls['phone'].hasError('minlength')">
+                        mobile Number must have 10 Digits.
+                    </div>
+                      <div *ngIf="userForm.controls['phone'].errors.pattern">
+                        mobile Number should be numbers only.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" class="form-control" formControlName="address">
+            </div>
+
+            <button type="submit" class="btn btn-default" [disabled]="!userForm.valid">Create Business Card</button>
+        </form>
+    </div>
+
+    <user-card [user]="user" [(isComplete)]="isComplete"></user-card>
+</div>
